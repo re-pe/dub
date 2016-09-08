@@ -163,8 +163,14 @@ class Dub {
 	{
 		import std.file : tempDir;
 		version(Windows) {
-			m_dirs.systemSettings = Path(environment.get("ProgramData")) ~ "dub/";
-			m_dirs.userSettings = Path(environment.get("APPDATA")) ~ "dub/";
+			dchar[dchar] transTable = [
+				'ą' : 'a', 'č' : 'c', 'ę' : 'e', 'ė' : 'e', 'į' : 'i', 
+				'š' : 's', 'ų' : 'u', 'ū' : 'u', 'ž' : 'z'
+			];
+			import std.string;
+			m_dirs.systemSettings = Path(environment.get("DUB_STORE")) ~ "_Shared/";
+			m_dirs.userSettings = 
+				Path(environment.get("DUB_STORE")) ~ Path(translate(environment.get("username"), transTable));
 		} else version(Posix){
 			m_dirs.systemSettings = Path("/var/lib/dub/");
 			m_dirs.userSettings = Path(environment.get("HOME")) ~ ".dub/";
