@@ -1,5 +1,7 @@
 *.o
 *.obj
+*.lnk
+*.exe
 
 .dub
 .directory
